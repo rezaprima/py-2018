@@ -154,8 +154,10 @@ def main():
 			new_board = move_top(board)
 		elif(a=='s'):
 			new_board = move_top(board)
-
-		new_board = seed_board(new_board, 1)
+		else:
+			new_board = board
+		if new_board != board:
+			new_board = seed_board(new_board, 1)
 		cls()
 		print_board(new_board)
 		board = new_board
