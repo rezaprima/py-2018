@@ -86,6 +86,8 @@ def merge_row_right(row):
 	merged.reverse()
 	return merged 
 
+def target_achieved(board, tgt):
+	return any(c >= tgt for r in board for c in r)
 
 def main():
 	dim = int(input('dimension = '))
@@ -256,6 +258,17 @@ class TestBoard(unittest.TestCase):
 		[4,4,2,4],
 		]
 		self.assertEqual(new_board, move_bottom(board))
+
+	def test_target_achieved(self):
+
+		board = [
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		[4,8,2,4],
+		]
+		self.assertTrue(target_achieved(board, 8))
+
 
 
 
