@@ -132,6 +132,8 @@ def seed_board(board, count):
 
 def no_more_move(board):
 	return not any(c==0 for r in board for c in r)
+def no_move(new_board, board):
+	return new_board == board
 
 def main():
 	dim = int(input('dimension = '))
@@ -155,7 +157,7 @@ def main():
 			new_board = move_bottom(board)
 		else:
 			new_board = board
-		if new_board != board:
+		if not no_move(new_board, board):
 			new_board = seed_board(new_board, 1)
 		cls()
 		print_board(new_board)
@@ -351,6 +353,16 @@ class TestBoard(unittest.TestCase):
 		]
 		new_board = seed_board(board, 2)
 		self.assertEqual(2, len([c for r in board for c in r if c!=0]))
+
+	def test_no_move(self):
+		board = [
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		[2,2,2,2],
+		]
+		new_board = move_bottom(board)
+		self.assertTrue(no_move(new_board, board))
 
 
 
