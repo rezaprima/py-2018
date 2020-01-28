@@ -26,17 +26,22 @@ def print_board(board, dim):
 
 def move_left(board):
 	d = len(board)
+	new_board = []
 	for row in board:
-		row = [j for j in row if j != 0]
-		row = row + [0]*(d-len(row))
-	return board
+		new_row = [j for j in row if j != 0]
+		new_row = new_row + [0]*(d-len(new_row))
+		new_board.append(new_row)
+	return new_board
 
 def move_right(board):
 	d = len(board)
+	new_board = []
 	for row in board:
-		row = [j for j in row if j != 0]
-		row = [0]*(d-len(row)) + row 
-	return board
+		new_row = [j for j in row if j != 0]
+		new_row = [0]*(d-len(new_row)) + new_row
+		new_board.append(new_row)
+	return new_board
+
 
 
 def main():
@@ -82,8 +87,7 @@ class TestBoard(unittest.TestCase):
 		[2,0,0,0],
 		[2,0,0,0],
 		]
-		new_board = move_left(board)
-		self.assertEqual(new_board, board)
+		self.assertEqual(new_board, move_left(board))
 
 	def test_move_right(self):
 		board = [
@@ -98,8 +102,7 @@ class TestBoard(unittest.TestCase):
 		[0,0,0,2],
 		[0,0,0,2],
 		]
-		new_board = move_right(board)
-		self.assertEqual(new_board, board)
+		self.assertEqual(new_board, move_right(board))
 
 
 
