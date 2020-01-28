@@ -49,7 +49,7 @@ def init_board(n):
 def print_board(board):
 	for i in range(len(board)):
 		row = board[i]
-		print(''.join([' ' if j==0 else str(j) for j in row ]))
+		print('|'+'|'.join(['    ' if j==0 else f"{j:>4}" for j in row ])+'|')
 
 
 def move_left(board):
