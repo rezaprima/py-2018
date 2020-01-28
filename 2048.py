@@ -1,6 +1,7 @@
 from os import system, name
 
 import unittest
+import random
 
 def cls():
 	# stolen from screen_clear from https://www.tutorialspoint.com/how-to-clear-screen-using-python
@@ -10,16 +11,43 @@ def cls():
    else:
       _ = system('clear')
 
+# stolen from https://stackoverflow.com/a/21659588
+def _find_getch():
+    try:
+        import termios
+    except ImportError:
+        # Non-POSIX. Return msvcrt's (Windows') getch.
+        import msvcrt
+        return msvcrt.getch
+
+    # POSIX system. Create and return a getch that manipulates the tty.
+    import sys, tty
+    def _getch():
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+
+    return _getch
+
+getch = _find_getch()
 
 def halo():
 	return 'halo'
 
 def init_board(n):
+	board = []
 	row = [0] * n
-	return [row] * n
+	for i in range(n):
+		board.append(row[:])
+	return board
 
-def print_board(board, dim):
-	for i in range(dim):
+def print_board(board):
+	for i in range(len(board)):
 		row = board[i]
 		print(''.join([' ' if j==0 else str(j) for j in row ]))
 
@@ -89,13 +117,57 @@ def merge_row_right(row):
 def target_achieved(board, tgt):
 	return any(c >= tgt for r in board for c in r)
 
+def seed_board(board, count):
+	i=0
+	while i<count:
+		random.seed()
+		r = random.randrange(0,len(board))
+		random.seed()
+		c = random.randrange(0,len(board))
+		if(board[r][c]!=0):
+			continue
+		board[r][c]=2
+		i=i+1
+	return board
+
+def no_more_move(board):
+	return not any(c==0 for r in board for c in r)
+
+
 def main():
-	dim = int(input('dimension = '))
-	tgt = int(input('target score = '))
+	# dim = int(input('dimension = '))
+	# tgt = int(input('target score = '))
+	dim,tgt = 4,16
 
 	cls()
 	board = init_board(dim)
-	print_board(board, dim)
+	board = seed_board(board, 2)
+	print_board(board)
+
+	a = getch()
+	if(a=='a'):
+		new_board = move_left(board)
+	elif(a=='d'):
+		new_board = move_right(board)
+	elif(a=='w'):
+		new_board = move_top(board)
+	elif(a=='s'):
+		new_board = move_top(board)
+
+	new_board = seed_board(new_board, 1)
+	cls()
+	print_board(new_board)
+	board = new_board
+	if(target_achieved(board, tgt)):
+		print("YOU WON")
+
+	if(no_more_move(board)):
+		print("YOU LOSE")
+
+	# while True:
+
+	# 	if(no_more_move(board)):
+	# 		print("YOU LOSE!")
 
 class TestBoard(unittest.TestCase):
 	def test_truth(self):
@@ -269,6 +341,15 @@ class TestBoard(unittest.TestCase):
 		]
 		self.assertTrue(target_achieved(board, 8))
 
+	def test_seed_board(self):
+		board = [
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		]
+		new_board = seed_board(board, 2)
+		self.assertEqual(2, len([c for r in board for c in r if c!=0]))
 
 
 
