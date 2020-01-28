@@ -40,7 +40,7 @@ def move_right(board):
 		new_row = [j for j in row if j != 0]
 		new_row = [0]*(d-len(new_row)) + new_row
 		new_board.append(new_row)
-	return new_board
+	return merge_right(new_board)
 
 def transpose(board):
 	return [list(c) for c in zip(*board)]
@@ -60,6 +60,13 @@ def merge_left(board):
 		new_board.append(new_row)
 	return new_board
 
+def merge_right(board):
+	new_board = []
+	for row in board:
+		new_row = merge_row_right(row)
+		new_board.append(new_row)
+	return new_board
+
 def merge_row_left(row):
 	d = len(row)
 	last = 0
@@ -71,6 +78,13 @@ def merge_row_left(row):
 		last = row[i]
 	new_row = [j for j in row if j!=0]
 	return new_row + [0]*(d-len(new_row))
+
+def merge_row_right(row):
+	row_copy = row[:]
+	row_copy.reverse()
+	merged = merge_row_left(row_copy)
+	merged.reverse()
+	return merged 
 
 
 def main():
@@ -197,6 +211,21 @@ class TestBoard(unittest.TestCase):
 		[2,0,0,0],
 		]
 		self.assertEqual(new_board, move_left(board))
+
+	def test_merge_right(self):
+		board = [
+		[2,0,2,0],
+		[0,2,0,0],
+		[0,0,2,0],
+		[0,0,0,2]
+		]
+		new_board = [
+		[0,0,0,4],
+		[0,0,0,2],
+		[0,0,0,2],
+		[0,0,0,2],
+		]
+		self.assertEqual(new_board, move_right(board))
 
 
 
