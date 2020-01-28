@@ -227,6 +227,36 @@ class TestBoard(unittest.TestCase):
 		]
 		self.assertEqual(new_board, move_right(board))
 
+	def test_merge_top(self):
+		board = [
+		[2,0,0,0],
+		[0,2,0,2],
+		[2,0,2,0],
+		[0,2,0,2]
+		]
+		new_board = [
+		[4,4,2,4],
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		]
+		self.assertEqual(new_board, move_top(board))
+
+	def test_merge_bottom(self):
+		board = [
+		[2,0,0,2],
+		[0,2,0,0],
+		[2,0,2,0],
+		[0,2,0,2]
+		]
+		new_board = [
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		[4,4,2,4],
+		]
+		self.assertEqual(new_board, move_bottom(board))
+
 
 
 if __name__ == '__main__':
