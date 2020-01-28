@@ -31,6 +31,13 @@ def move_left(board):
 		row = row + [0]*(d-len(row))
 	return board
 
+def move_right(board):
+	d = len(board)
+	for row in board:
+		row = [j for j in row if j != 0]
+		row = [0]*(d-len(row)) + row 
+	return board
+
 
 def main():
 	dim = int(input('dimension = '))
@@ -77,6 +84,23 @@ class TestBoard(unittest.TestCase):
 		]
 		new_board = move_left(board)
 		self.assertEqual(new_board, board)
+
+	def test_move_right(self):
+		board = [
+		[2,0,0,0],
+		[0,2,0,0],
+		[0,0,2,0],
+		[0,0,0,2]
+		]
+		new_board = [
+		[0,0,0,2],
+		[0,0,0,2],
+		[0,0,0,2],
+		[0,0,0,2],
+		]
+		new_board = move_right(board)
+		self.assertEqual(new_board, board)
+
 
 
 if __name__ == '__main__':
