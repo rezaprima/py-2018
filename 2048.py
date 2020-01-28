@@ -49,6 +49,9 @@ def transpose(board):
 def move_top(board):
 	return transpose(move_left(transpose(board)))
 
+def move_bottom(board):
+	return transpose(move_right(transpose(board)))
+
 
 def main():
 	dim = int(input('dimension = '))
@@ -124,6 +127,21 @@ class TestBoard(unittest.TestCase):
 		[0,0,0,0],
 		]
 		self.assertEqual(new_board, move_top(board))
+
+	def test_move_bottom(self):
+		board = [
+		[2,0,0,0],
+		[0,2,0,0],
+		[0,0,2,0],
+		[0,0,0,2]
+		]
+		new_board = [
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		[2,2,2,2],
+		]
+		self.assertEqual(new_board, move_bottom(board))
 
 	def test_transpose(self):
 		board = [
