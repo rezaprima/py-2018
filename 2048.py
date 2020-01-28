@@ -133,11 +133,10 @@ def seed_board(board, count):
 def no_more_move(board):
 	return not any(c==0 for r in board for c in r)
 
-
 def main():
-	# dim = int(input('dimension = '))
-	# tgt = int(input('target score = '))
-	dim,tgt = 4,16
+	dim = int(input('dimension = '))
+	tgt = int(input('target score = '))
+	# dim,tgt = 4,16
 
 	cls()
 	board = init_board(dim)
@@ -153,7 +152,7 @@ def main():
 		elif(a=='w'):
 			new_board = move_top(board)
 		elif(a=='s'):
-			new_board = move_top(board)
+			new_board = move_bottom(board)
 		else:
 			new_board = board
 		if new_board != board:
