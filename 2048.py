@@ -42,6 +42,12 @@ def move_right(board):
 		new_board.append(new_row)
 	return new_board
 
+def transpose(board):
+	return [list(c) for c in zip(*board)]
+
+
+def move_top(board):
+	return transpose(move_left(transpose(board)))
 
 
 def main():
@@ -104,6 +110,35 @@ class TestBoard(unittest.TestCase):
 		]
 		self.assertEqual(new_board, move_right(board))
 
+	def test_move_top(self):
+		board = [
+		[2,0,0,0],
+		[0,2,0,0],
+		[0,0,2,0],
+		[0,0,0,2]
+		]
+		new_board = [
+		[2,2,2,2],
+		[0,0,0,0],
+		[0,0,0,0],
+		[0,0,0,0],
+		]
+		self.assertEqual(new_board, move_top(board))
+
+	def test_transpose(self):
+		board = [
+		[2,2,2,2],
+		[0,0,0,2],
+		[0,0,0,2],
+		[0,0,0,2]
+		]
+		new_board = [
+		[2,0,0,0],
+		[2,0,0,0],
+		[2,0,0,0],
+		[2,2,2,2],
+		]
+		self.assertEqual(new_board, transpose(board))
 
 
 if __name__ == '__main__':
