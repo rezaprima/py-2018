@@ -273,6 +273,7 @@ class TestBoard(unittest.TestCase):
 		self.assertEqual([4,0,0,0], merge_row_left([2,2,0,0]))
 		self.assertEqual([4,2,0,0], merge_row_left([2,2,2,0]))
 		self.assertEqual([4,4,0,0], merge_row_left([2,2,2,2]))
+		self.assertEqual([2,4,4,0], merge_row_left([2,4,2,2]))
 
 	def test_merge_left(self):
 		board = [
