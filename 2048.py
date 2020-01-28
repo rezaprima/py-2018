@@ -144,30 +144,30 @@ def main():
 	board = seed_board(board, 2)
 	print_board(board)
 
-	a = getch()
-	if(a=='a'):
-		new_board = move_left(board)
-	elif(a=='d'):
-		new_board = move_right(board)
-	elif(a=='w'):
-		new_board = move_top(board)
-	elif(a=='s'):
-		new_board = move_top(board)
+	while True:
+		a = getch()
+		if(a=='a'):
+			new_board = move_left(board)
+		elif(a=='d'):
+			new_board = move_right(board)
+		elif(a=='w'):
+			new_board = move_top(board)
+		elif(a=='s'):
+			new_board = move_top(board)
 
-	new_board = seed_board(new_board, 1)
-	cls()
-	print_board(new_board)
-	board = new_board
-	if(target_achieved(board, tgt)):
-		print("YOU WON")
+		new_board = seed_board(new_board, 1)
+		cls()
+		print_board(new_board)
+		board = new_board
+		if(target_achieved(board, tgt)):
+			print("YOU WON")
+			break
 
-	if(no_more_move(board)):
-		print("YOU LOSE")
+		if(no_more_move(board)):
+			print("YOU LOSE")
+			break
 
-	# while True:
 
-	# 	if(no_more_move(board)):
-	# 		print("YOU LOSE!")
 
 class TestBoard(unittest.TestCase):
 	def test_truth(self):
